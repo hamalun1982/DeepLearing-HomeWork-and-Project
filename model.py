@@ -1,5 +1,7 @@
 def train_functions(train_images,train_labels,val_images,val_labels, Regularization, Learn_rate, batach_size, layers):
-    """Comment discription here later"""
+    """Comment discription here later
+
+    """
     
     #set Regularization as default if none 
     if Regularization == None:
