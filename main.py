@@ -23,10 +23,11 @@ train_labels, val_labels, test_labels = split_data(labels_oh, 0.7, 0.1, .2, 123)
 #variables specification
 filepath='/work/ahouston/sshield/CSCE_896/HW1/'
 c=0
-hiddenlayers=[3,5]
+hiddenlayers=[5,3]
 batchsize=[64,128]
 learningrate=[0.001,0.01]
 regularization=[None,tf.contrib.layers.l2_regularizer(scale=0.01)]
+results=pd.DataFrame()
 for h in hiddenlayers:
     for b in batchsize:
         for l in learningrate:
