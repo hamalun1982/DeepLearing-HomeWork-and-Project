@@ -1,7 +1,6 @@
 import tensorflow as tf
 def train_function(train_images,train_labels,val_images,val_labels, Regularization, Learn_rate, batch_size, layers):
     """Comment discription here later
-
     """
     
     # variables
@@ -27,6 +26,8 @@ def train_function(train_images,train_labels,val_images,val_labels, Regularizati
     global_step_tensor = tf.get_variable('global_step', trainable=False, shape=[], initializer=tf.zeros_initializer)
     optimizer = tf.train.AdamOptimizer(learning_rate = Learn_rate)
     train_op = optimizer.minimize(cross_entropy, global_step=global_step_tensor)
+    saver = tf.train.Saver()
+    save_directory = './homework1_logs'
 
     with tf.Session() as session:
         session.run(tf.global_variables_initializer())
@@ -35,21 +36,21 @@ def train_function(train_images,train_labels,val_images,val_labels, Regularizati
         best_val_acc=0
         for epoch in range(100):
             print('Epoch',epoch)
-            # run gradient steps 
+            # run gradient steps
             for i in range(train_num_examples // batch_size):
                 batch_xs = train_images[i * batch_size:(i + 1) * batch_size, :]
                 batch_ys = train_labels[i * batch_size:(i + 1) * batch_size, :]
                 session.run([train_op, tf.reduce_mean(cross_entropy)], {x: batch_xs, y: batch_ys})
-            
+
             #train accuraccy
             train_acc =  session.run(accuracy, {x: train_images, y: train_labels})
             print('Training Accuracy',train_acc)
-        
+
             #validation accuracy
             val_acc = session.run(accuracy, {x: val_images,y: val_labels})
             print('Validation Accuracy',val_acc)
 
-		    
+
             #early stopping
             if (val_acc > best_val_acc ):
                 best_val_acc=val_acc
@@ -61,6 +62,8 @@ def train_function(train_images,train_labels,val_images,val_labels, Regularizati
                     break
                 else:
                     continue
+                    
+    path_prefix = saver.save(session, os.path.join(save_directory, "homework_1"), global_step=global_step_tensor)
     tf.reset_default_graph()
 
     return best_train_acc, best_val_acc

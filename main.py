@@ -21,7 +21,7 @@ train_labels, val_labels, test_labels = split_data(labels_oh, 0.7, 0.1, .2, 123)
 
 
 #variables specification
-filepath='/work/ahouston/sshield/CSCE_896/HW1/'
+filepath='/home/han/Documents/DeepLearing-HomeWork-and-Project'
 c=0
 hiddenlayers=[3,5]
 batchsize=[64,128]
