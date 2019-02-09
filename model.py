@@ -1,4 +1,6 @@
 import tensorflow as tf
+import os
+
 def train_function(train_images,train_labels,val_images,val_labels, Regularization, Learn_rate, batch_size, layers):
     """Comment discription here later
     """
@@ -49,8 +51,7 @@ def train_function(train_images,train_labels,val_images,val_labels, Regularizati
             #validation accuracy
             val_acc = session.run(accuracy, {x: val_images,y: val_labels})
             print('Validation Accuracy',val_acc)
-
-
+            
             #early stopping
             if (val_acc > best_val_acc ):
                 best_val_acc=val_acc
@@ -62,8 +63,10 @@ def train_function(train_images,train_labels,val_images,val_labels, Regularizati
                     break
                 else:
                     continue
+        print('save model to directory ')
+        path_prefix = saver.save(session, os.path.join(save_directory, "homework_1"), global_step=global_step_tensor)
                     
-    path_prefix = saver.save(session, os.path.join(save_directory, "homework_1"), global_step=global_step_tensor)
+
     tf.reset_default_graph()
 
     return best_train_acc, best_val_acc
