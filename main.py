@@ -21,18 +21,18 @@ train_labels, val_labels, test_labels = split_data(labels_oh, 0.7, 0.1, .2, 123)
 
 
 #variables specification
-filepath='/home/han/Documents/DeepLearing-HomeWork-and-Project'
+filepath='/work/cse496dl/dmle/'
 c=0
-hiddenlayers=[5,3]
-batchsize=[64,128]
-learningrate=[0.001,0.01]
-regularization=[None,tf.contrib.layers.l2_regularizer(scale=0.01)]
+hiddenlayers=[5]
+batchsize=[128]
+learningrate=[0.001]
+regularization=[tf.contrib.layers.l2_regularizer(scale=0.01)]
 results=pd.DataFrame()
 for h in hiddenlayers:
     for b in batchsize:
         for l in learningrate:
             for r in regularization:
-                train_accuracy, validation_accuracy = train_function(train_images,train_labels,val_images,val_labels, r, l, b, h)
+                train_accuracy, validation_accuracy = train_function(train_images,train_labels,val_images,val_labels,test_images, test_labels, r, l, b, h)
 
                 #add hyperparameters and results to dataframe
                 results.loc[c,'Hidden_layers']=h
